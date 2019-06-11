@@ -1,0 +1,118 @@
+#include <iostream.h>
+#include <stdlib.h>
+#include <conio.h>
+
+int ch,row,col;
+char board[3][3]={ {'1','2','3'},{'4','5','6'},{'7','8','9'} };
+char turn = 'X' ;
+bool draw = false ;
+
+void display_board()  // for display a board  
+{ system (" cls ");
+
+ cout<<"\n\n  T I C  T A C  T O E  G A M E \n\n";
+ cout<<"\n\n Player1 [X] \n player2 [O]  \n\n\n ";
+
+ cout<<"\t\t     |     |     \n";
+ cout<<"\t\t  "<<board[0][0]<<"  |  "<<board[0][1]<<"  |  "<<board[0][2]<<"  \n";
+ cout<<"\t\t_____|_____|_____\n";
+ cout<<"\t\t     |     |     \n";
+ cout<<"\t\t  "<<board[1][0]<<"  |  "<<board[1][1]<<"  |  "<<board[1][2]<<"  \n";
+ cout<<"\t\t_____|_____|_____\n";
+ cout<<"\t\t     |     |     \n";
+ cout<<"\t\t  "<<board[2][0]<<"  |  "<<board[2][1]<<"  |  "<<board[2][2]<<"  \n";
+ cout<<"\t\t     |     |     \n";
+
+
+
+}
+
+void player_turn()
+{
+    if(turn == 'X')
+    cout<<"\n\t PLAYER1 [X] TURN :: ";
+
+    if(turn == 'O')
+    cout<<"\n\t PLAYER2 [0] TURN :: ";
+
+    cin>>ch;
+
+  switch(ch)
+   { case 1: row = 0; col= 0 ; break;
+     case 2: row = 0; col= 1 ; break;
+     case 3: row = 0; col= 2 ; break;
+     case 4: row = 1; col= 0 ; break;
+     case 5: row = 1; col= 1 ; break;
+     case 6: row = 1; col= 2 ; break;
+     case 7: row = 2; col= 0 ; break;
+     case 8: row = 2; col= 1 ; break;
+     case 9: row = 2; col= 2 ; break;
+
+     default:  cout<<"\n\n Invalid choice \n\n"<<endl;
+		break;
+   }
+  if (turn == 'X' && board[row][col]!= 'X' && board[row][col] !='O')
+  {
+	   board[row][col]='X';
+	   turn ='O';
+  }
+  else if(turn == 'O' && board[row][col] !='X' && board[row][col] != 'O')
+  {
+      board[row][col]='O';
+      turn = 'X' ;
+  }
+ else
+ {
+  cout<<"\n\n BOX Already Filled !!! \n please Try Again !!!";
+	    player_turn ();
+ }
+ display_board();
+}
+bool game_over()
+{    // check wether one player is win or not !!!
+
+ for ( int k=0;k<=3;k++)
+ if (board[k][0] == board[k][1] && board[k][0] == board[k][2] || board[0][k] == board[1][k] && board[0][k] == board[2][k])
+  return false ;
+
+ if (board[0][0] == board[1][1] && board[0][0] == board[2][2] || board[0][2] == board[1][1] && board[0][2] == board[2][0] )
+ return false ;
+
+ // if there is any Box not filed .............
+ for (int i=0;i<3;i++)
+ for (int j=0;j<3;j++)
+
+ if (board[i][j] != 'X' && board[i][j] != 'O' )
+ return turn ;
+
+
+
+
+}
+
+
+
+void main()
+{ clrscr();
+
+ while(game_over() )
+ {
+
+   display_board();
+   player_turn();
+    game_over();
+ }
+
+ if (turn =='X' && draw == false )
+ cout<<" Player2 [O]  Wins !! Congratulation \n\n ";
+
+else if (turn =='O' && draw == false )
+ cout<<" Player1 [X]  Wins !! Congratulation \n\n ";
+
+ else
+ cout<<" GAME DRAW !! \n ";
+
+
+
+ getch();
+}
